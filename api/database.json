@@ -1,0 +1,24 @@
+{
+    "entries": [
+        {
+            "id": 1,
+            "date": "09/27/2021",
+            "concept": "HTML & CSS",
+            "entry": "We talked about HTML components and how to make grid layouts with Flexbox in CSS.",
+            "mood": "Comfortable"
+        },
+        {
+            "id": 2,
+            "date": "10/4/2021",
+            "concept": "Javascript",
+            "entry": "We went through the introduction to Javascript.",
+            "mood": "Comfortable"
+        },
+        {
+            "id": 3,
+            "date": "10/11/2021",
+            "concept": "Javascript",
+            "entry": "We started working on the first extra project in Tier 1.",
+            "mood": "Comfortable"
+        }    ]
+}
