@@ -45,6 +45,58 @@
       "entry": "New Stuff",
       "moodId": 3,
       "id": 7
+    },
+    {
+      "date": "2021-11-04",
+      "dateToSort": 1635984000000,
+      "concepts": "Tags",
+      "entry": "Testing if tags are successfully being stored in array",
+      "moodId": 3,
+      "id": 8
+    },
+    {
+      "date": "2021-11-09",
+      "dateToSort": 1636416000000,
+      "concepts": "random",
+      "entry": "brain things",
+      "moodId": 5,
+      "id": 9
+    }
+  ],
+  "tags": [
+    {
+      "id": 1,
+      "subject": "API"
+    },
+    {
+      "id": 2,
+      "subject": "components"
+    },
+    {
+      "id": 3,
+      "subject": "fetch"
+    }
+  ],
+  "entrytags": [
+    {
+      "id": 1,
+      "entryId": 5,
+      "tagId": 2
+    },
+    {
+      "id": 2,
+      "entryId": 5,
+      "tagId": 3
+    },
+    {
+      "id": 3,
+      "entryId": 6,
+      "tagId": 1
+    },
+    {
+      "id": 4,
+      "entryId": 7,
+      "tagId": 2
     }
   ]
 }

@@ -19,6 +19,10 @@ export const JournalForm = () => {
         <fieldset>
             ${Moods()}
         </fieldset >
+        <fieldset>
+            <label for "entry-tags">Tags</label>
+            <input type="text" id="entry-tags" name="entry-tags">
+        </fieldset>
     <button type="button" id="recordEntry">Record Journal Entry</button>
     `
 }
@@ -35,6 +39,17 @@ mainContainer.addEventListener("click", clickEvent => {
         const userEntry = document.querySelector("textarea[name='text']").value
         const userMood = transientState.moodId
         const userDateToSort = Date.parse(userDate)
+
+        const tagsArray = document.querySelector("input[name='entry-tags']").value.split(",")
+
+        console.log(tagsArray)
+
+        // tagsArray.forEach(
+        //     (tag) => {
+        //         findTag(tag)
+        //             .then()
+        //     }
+        // )
 
         const userEntryObj = {
             date: userDate,
