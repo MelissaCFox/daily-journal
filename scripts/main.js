@@ -1,15 +1,26 @@
 
 //Started code, adjust as needed
 import { DailyJournal } from "./DailyJournal.js"
+import { fetchData } from "./dataAccess.js"
 
-const container = document.querySelector("#journalFormAndEntries")
+const mainContainer = document.querySelector("#container")
 
 const render = () => {
-    container.innerHTML = DailyJournal()
+    fetchData().then(
+        () => {
+            mainContainer.innerHTML = DailyJournal()
+        }
+    )
 }
 
 render()
 
+mainContainer.addEventListener(
+    "stateChanged",
+    customEvent => {
+        render()
+    }
+)
 
 
 //Display 3 most recent journal entries

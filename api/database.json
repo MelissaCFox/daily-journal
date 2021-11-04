@@ -1,24 +1,50 @@
 {
-    "entries": [
-        {
-            "id": 1,
-            "date": "09/27/2021",
-            "concept": "HTML & CSS",
-            "entry": "We talked about HTML components and how to make grid layouts with Flexbox in CSS.",
-            "mood": "Comfortable"
-        },
-        {
-            "id": 2,
-            "date": "10/4/2021",
-            "concept": "Javascript",
-            "entry": "We went through the introduction to Javascript.",
-            "mood": "Comfortable"
-        },
-        {
-            "id": 3,
-            "date": "10/11/2021",
-            "concept": "Javascript",
-            "entry": "We started working on the first extra project in Tier 1.",
-            "mood": "Comfortable"
-        }    ]
+  "moods": [
+    {
+      "id": 1,
+      "mood": "Happy"
+    },
+    {
+      "id": 2,
+      "mood": "Comfortable"
+    },
+    {
+      "id": 3,
+      "mood": "Ok"
+    },
+    {
+      "id": 4,
+      "mood": "Frustrated"
+    },
+    {
+      "id": 5,
+      "mood": "Oatmeal"
+    }
+  ],
+  "entries": [
+    {
+      "date": "2021-11-03",
+      "dateToSort": 1635897600000,
+      "concepts": "Something",
+      "entry": "Messing around with date stuff...",
+      "moodId": 4,
+      "id": 5
+    },
+    {
+      "date": "2021-10-19",
+      "dateToSort": 1634601600000,
+      "concepts": "Things",
+      "entry": "Stuff",
+      "moodId": 2,
+      "id": 6
+    },
+    {
+      "date": "2021-11-05",
+      "dateToSort": 1636070400000,
+      "concepts": "New things",
+      "entry": "New Stuff",
+      "moodId": 3,
+      "id": 7
+    }
+  ]
 }

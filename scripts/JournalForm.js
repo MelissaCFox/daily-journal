@@ -1,28 +1,49 @@
+import { getTransientState, saveEntry } from "./dataAccess.js"
+import { Moods } from "./Moods.js"
+
 
 export const JournalForm = () => {
     return `
         <fieldset>
             <label for "date">Date</label>
-            <input type="date" id="date" name="Date">
+            <input type="date" id="date" name="date">
         </fieldset>
         <fieldset>
             <label for "new-entry-concept">Concepts Covered</label>
-            <textarea id="new-entry-concept" name="Concept" rows="1" cols="20"></textarea>
+            <textarea id="new-entry-concept" name="concept" rows="1" cols="20"></textarea>
         </fieldset>
         <fieldset>
             <label for "new-entry-text">Journal Entry</label>
-            <textarea id="new-entry-text" name="Text" rows="3" cols="50"></textarea>
+            <textarea id="new-entry-text" name="text" rows="3" cols="50"></textarea>
         </fieldset >
         <fieldset>
-            <label for "mood">Mood:</label>
-            <select name="mood" name="mood">
-                <option value = "Happy">Happy</option>
-                <option value = "Comfortable">Comfortable</option>
-                <option value = "Ok">Ok</option>
-                <option value = "Frustrated">Frustrated</option>
-                <option value = "Oatmeal">Oatmeal</option>
-            </select>
+            ${Moods()}
         </fieldset >
-    <button type="button">Record Journal Entry</button>
+    <button type="button" id="recordEntry">Record Journal Entry</button>
     `
 }
+
+
+const mainContainer = document.querySelector("#container")
+
+mainContainer.addEventListener("click", clickEvent => {
+    if (clickEvent.target.id === "recordEntry") {
+        const transientState = getTransientState()
+
+        const userDate = document.querySelector("input[name='date']").value
+        const userConcept = document.querySelector("textarea[name='concept']").value
+        const userEntry = document.querySelector("textarea[name='text']").value
+        const userMood = transientState.moodId
+        const userDateToSort = Date.parse(userDate)
+
+        const userEntryObj = {
+            date: userDate,
+            dateToSort: userDateToSort,
+            concepts: userConcept,
+            entry: userEntry,
+            moodId: userMood
+        }
+
+        saveEntry(userEntryObj)
+    }
+})
