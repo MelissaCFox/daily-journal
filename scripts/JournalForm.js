@@ -1,4 +1,4 @@
-import { getTransientState, saveEntry } from "./dataAccess.js"
+import { getTransientState, saveEntry, setEntryTags } from "./dataAccess.js"
 import { Moods } from "./Moods.js"
 
 
@@ -44,12 +44,11 @@ mainContainer.addEventListener("click", clickEvent => {
 
         console.log(tagsArray)
 
-        // tagsArray.forEach(
-        //     (tag) => {
-        //         findTag(tag)
-        //             .then()
-        //     }
-        // )
+        tagsArray.forEach(
+            (tag) => {
+                setEntryTags(tag)
+            }
+        )
 
         const userEntryObj = {
             date: userDate,

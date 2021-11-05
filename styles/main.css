@@ -1,4 +1,37 @@
+@import url("https://fonts.googleapis.com/css?family=Comfortaa|Patua+One");
+
+* {
+    /* border: 1px solid black; */
+    font-family:Comfortaa;
+    letter-spacing: 2px;
+    color:rgb(32, 67, 68);
+    margin: 0.5em;
+}
+
+
 fieldset {
     display: flex;
     flex-direction: column;
+}
+
+
+.entry-item {
+    background: rgb(221, 237, 238);
+    margin: 5px;
+    padding: 2px;
+}
+
+
+
+.entry-item-tags {
+    /* border: black 1px solid; */
+    display: flex;
+    flex: wrap;
+    align-items: center;
+}
+
+.entry-item-tag {
+    border: 1px solid black;
+    padding: 2px;
+    font-size: 0.75rem;
 }
