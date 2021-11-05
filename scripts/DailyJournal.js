@@ -5,6 +5,7 @@ import { MoodFilter } from "./MoodFilter.js"
 export const DailyJournal = () => {
     return `
         <form class="entryForm">
+        <h2>What Have We Learned?</h2>
             ${JournalForm()}
         </form>
         
@@ -13,6 +14,7 @@ export const DailyJournal = () => {
         </section>
 
         <section class="entryList">
+        <h1>Entries</h1>
             ${ Entries() }
         </section>
     `

@@ -1,4 +1,5 @@
 import { getTransientState, saveEntry, setEntryTags } from "./dataAccess.js"
+import { Instructors } from "./Instructors.js"
 import { Moods } from "./Moods.js"
 
 
@@ -19,6 +20,11 @@ export const JournalForm = () => {
         <fieldset>
             ${Moods()}
         </fieldset >
+
+        <fieldset>
+        ${Instructors()}
+        </fieldset>
+
         <fieldset>
             <label for "entry-tags">Tags</label>
             <input type="text" id="entry-tags" name="entry-tags">
@@ -39,23 +45,27 @@ mainContainer.addEventListener("click", clickEvent => {
         const userEntry = document.querySelector("textarea[name='text']").value
         const userMood = transientState.moodId
         const userDateToSort = Date.parse(userDate)
+        const userInstructorId = transientState.instructorId
 
-        const tagsArray = document.querySelector("input[name='entry-tags']").value.split(",")
 
-        console.log(tagsArray)
+        if (!document.querySelector("input[name='entry-tags']").value === undefined) {
 
-        tagsArray.forEach(
-            (tag) => {
-                setEntryTags(tag)
-            }
-        )
+            const tagsArray = document.querySelector("input[name='entry-tags']").value.split(",")
+    
+            tagsArray.forEach(
+                (tag) => {
+                    setEntryTags(tag)
+                }
+            )
+        }
 
         const userEntryObj = {
             date: userDate,
             dateToSort: userDateToSort,
             concepts: userConcept,
             entry: userEntry,
-            moodId: userMood
+            moodId: userMood,
+            instructorId: userInstructorId
         }
 
         saveEntry(userEntryObj)

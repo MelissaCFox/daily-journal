@@ -11,7 +11,9 @@ const database = {
     entries: [],
     tags: [],
     entryTags: [],
+    instructors: [],
     transientState: {
+        instructorId: null,
         moodId: null,
         moodFilterId: null,
         entryTags: new Set()
@@ -42,12 +44,18 @@ export const fetchData = () => {
         .then(entryTags => {
             database.entryTags = entryTags//What should happen when we finally have the array
         })
+    fetch(`${API}/instructors`) // Fetch from the API
+        .then(response => response.json())  // Parse as JSON
+        .then(instructors => {
+            database.instructors = instructors//What should happen when we finally have the array
+        })
     return fetch(`${API}/moods`) // Fetch from the API
         .then(response => response.json())  // Parse as JSON
         .then(moods => {
             database.moods = moods//What should happen when we finally have the array
         })
 }
+
 
 export const getJournalEntries = () => {
     return database.entries.map(entry => ({ ...entry }))
@@ -66,11 +74,15 @@ export const getMoods = () => {
 }
 
 export const getTags = () => {
-    return database.tags.map(tag => ({...tag}))
+    return database.tags.map(tag => ({ ...tag }))
 }
 
 export const getEntryTags = () => {
-    return database.entryTags.map(tag => ({...tag}))
+    return database.entryTags.map(tag => ({ ...tag }))
+}
+
+export const getInstructors = () => {
+    return database.instructors.map(instructor => ({...instructor}))
 }
 
 export const getTransientState = () => {
@@ -78,6 +90,10 @@ export const getTransientState = () => {
 }
 
 //Set TransientState Info
+export const setInstructorId = (id) => {
+    database.transientState.instructorId = id
+}
+
 export const setMood = (id) => {
     database.transientState.moodId = id
 }
@@ -92,7 +108,7 @@ export const setEntryTags = (tag) => {
 }
 
 const createEntryTags = (userEntry) => {
-    const fetchArrays = []  
+    const fetchArrays = []
     database.transientState.entryTags.forEach(
         (entryTag) => {
             const foundTag = database.tags.find(
@@ -111,7 +127,7 @@ const createEntryTags = (userEntry) => {
                     })
                 })
                     .then(response => response.json())
-                    
+
                     .then((newTagObject) => {
                         fetchArrays.push(fetch(`${API}/entryTags`, {
                             method: "POST",
@@ -125,7 +141,6 @@ const createEntryTags = (userEntry) => {
                         })
                             .then(response => response.json())
                             .then(() => {  //capture id of newly created tag and use to create an entrytagobj
-                                console.log("New TagObject and entryTag created")
                             }))
 
                     }))
@@ -143,7 +158,6 @@ const createEntryTags = (userEntry) => {
                 })
                     .then(response => response.json())
                     .then(() => {
-                        console.log("New entryTag created")
                     }))
             }
         }
@@ -172,9 +186,8 @@ export const saveEntry = (userEntry) => {
         .then(response => response.json())
         .then((userEntryObj) => {
             createEntryTags(userEntryObj)
-            console.log("CreateEntryTags function called")
-            database.transientState.entryTags.clear()
-            console.log("Transient state cleared")
+            database.getTransientState = {}
+            database.transientState.entryTags = new Set()
             mainContainer.dispatchEvent(new CustomEvent("stateChanged"))
         })
 }
