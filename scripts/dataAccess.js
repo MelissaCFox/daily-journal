@@ -29,26 +29,55 @@ const API = "http://localhost:8088"
 
 //fetch all relevant data from JSON server
 export const fetchData = () => {
-    fetch(`${API}/entries?_expand=mood`) // Fetch from the API
+    fetchEntriesWithMoods()
+        .then(
+            () => fetchMoods()
+        )
+        .then(
+            () => fetchTags()
+        )
+        .then(
+            () => fetchEntryTags()
+        )
+        .then(
+            () => fetchInstructors()
+        )
+
+}
+
+export const fetchEntriesWithMoods = () => {
+    return fetch(`${API}/entries?_expand=mood`) // Fetch from the API
         .then(response => response.json())  // Parse as JSON
         .then(entries => {
             database.entries = entries//What should happen when we finally have the array
         })
-    fetch(`${API}/tags`) // Fetch from the API
+}
+
+export const fetchTags = () => {
+    return fetch(`${API}/tags`) // Fetch from the API
         .then(response => response.json())  // Parse as JSON
         .then(tags => {
             database.tags = tags//What should happen when we finally have the array
         })
-    fetch(`${API}/entryTags`) // Fetch from the API
+}
+
+export const fetchEntryTags = () => {
+    return fetch(`${API}/entryTags`) // Fetch from the API
         .then(response => response.json())  // Parse as JSON
         .then(entryTags => {
             database.entryTags = entryTags//What should happen when we finally have the array
         })
-    fetch(`${API}/instructors`) // Fetch from the API
+}
+
+export const fetchInstructors = () => {
+    return fetch(`${API}/instructors`) // Fetch from the API
         .then(response => response.json())  // Parse as JSON
         .then(instructors => {
             database.instructors = instructors//What should happen when we finally have the array
         })
+}
+
+export const fetchMoods = () => {
     return fetch(`${API}/moods`) // Fetch from the API
         .then(response => response.json())  // Parse as JSON
         .then(moods => {
@@ -82,7 +111,7 @@ export const getEntryTags = () => {
 }
 
 export const getInstructors = () => {
-    return database.instructors.map(instructor => ({...instructor}))
+    return database.instructors.map(instructor => ({ ...instructor }))
 }
 
 export const getTransientState = () => {
@@ -110,7 +139,9 @@ export const setEntryTags = (tag) => {
 
 //Fetch Options
 const createEntryTags = (userEntry) => {
-    const fetchArrays = []
+    const fetchTagsArray = []
+    const fetchEntryTagsArray = []
+
     database.transientState.entryTags.forEach(
         (entryTag) => {
             const foundTag = database.tags.find(
@@ -119,7 +150,7 @@ const createEntryTags = (userEntry) => {
                 }
             )
             if (!foundTag) {
-                fetchArrays.push(fetch(`${API}/tags`, {
+                fetchTagsArray.push(fetch(`${API}/tags`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -129,10 +160,9 @@ const createEntryTags = (userEntry) => {
                     })
                 })
                     .then(response => response.json())
-
                     //capture id of newly created tag and use to create an entrytagobj
                     .then((newTagObject) => {
-                        fetchArrays.push(fetch(`${API}/entryTags`, {
+                        fetchEntryTagsArray.push(fetch(`${API}/entryTags`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json"
@@ -143,13 +173,14 @@ const createEntryTags = (userEntry) => {
                             })
                         })
                             .then(response => response.json())
-                            .then(() => {  
+                            .then(() => {
+                                console.log("created new tag and entryTag")
                             }))
 
                     }))
             } else {
                 //post new entry tag with foundTag.id
-                fetchArrays.push(fetch(`${API}/entryTags`, {
+                fetchEntryTagsArray.push(fetch(`${API}/entryTags`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -161,15 +192,25 @@ const createEntryTags = (userEntry) => {
                 })
                     .then(response => response.json())
                     .then(() => {
+                        console.log("created entryTag from existing tag")
                     }))
             }
         }
     )
-    Promise.all(fetchArrays).then(
-        () => {
-            console.log("All fetches complete")
-        }
-    )
+    Promise.all(fetchTagsArray)
+        .then(
+            () => Promise.all(fetchEntryTagsArray)
+        )
+        .then(
+            () => {
+                console.log("all fetches in fetchArrays completed")
+                console.log("resetting state")
+                database.transientState = {}
+                database.transientState.entryTags = new Set()
+                mainContainer.dispatchEvent(new CustomEvent("stateChanged"))
+                console.log("change event dispatched")
+            }
+        )
 }
 
 
@@ -189,10 +230,8 @@ export const saveEntry = (userEntry) => {
         .then(response => response.json())
         .then((userEntryObj) => {
             createEntryTags(userEntryObj)
-            database.getTransientState = {}
-            database.transientState.entryTags = new Set()
-            mainContainer.dispatchEvent(new CustomEvent("stateChanged"))
         })
+        .then(() => { })
 }
 
 export const deleteEntry = (entryId) => {

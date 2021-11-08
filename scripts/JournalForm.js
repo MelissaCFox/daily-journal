@@ -48,10 +48,10 @@ mainContainer.addEventListener("click", clickEvent => {
         const userInstructorId = transientState.instructorId
 
 
-        if (!document.querySelector("input[name='entry-tags']").value === undefined) {
+        if (document.querySelector("input[name='entry-tags']").value) {
 
             const tagsArray = document.querySelector("input[name='entry-tags']").value.split(",")
-    
+
             tagsArray.forEach(
                 (tag) => {
                     setEntryTags(tag)
