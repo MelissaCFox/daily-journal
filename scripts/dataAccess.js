@@ -27,7 +27,7 @@ const database = {
 
 const API = "http://localhost:8088"
 
-
+//fetch all relevant data from JSON server
 export const fetchData = () => {
     fetch(`${API}/entries?_expand=mood`) // Fetch from the API
         .then(response => response.json())  // Parse as JSON
@@ -56,7 +56,7 @@ export const fetchData = () => {
         })
 }
 
-
+//Get application state/database data
 export const getJournalEntries = () => {
     return database.entries.map(entry => ({ ...entry }))
 }
@@ -107,6 +107,8 @@ export const setEntryTags = (tag) => {
     database.transientState.entryTags.add(tag)
 }
 
+
+//Fetch Options
 const createEntryTags = (userEntry) => {
     const fetchArrays = []
     database.transientState.entryTags.forEach(
@@ -128,6 +130,7 @@ const createEntryTags = (userEntry) => {
                 })
                     .then(response => response.json())
 
+                    //capture id of newly created tag and use to create an entrytagobj
                     .then((newTagObject) => {
                         fetchArrays.push(fetch(`${API}/entryTags`, {
                             method: "POST",
@@ -140,7 +143,7 @@ const createEntryTags = (userEntry) => {
                             })
                         })
                             .then(response => response.json())
-                            .then(() => {  //capture id of newly created tag and use to create an entrytagobj
+                            .then(() => {  
                             }))
 
                     }))
